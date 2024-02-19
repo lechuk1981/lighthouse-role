@@ -1,0 +1,13 @@
+---
+- name: Lighthouse | Copy from github
+      ansible.builtin.git:
+        repo: "{{ lighthouse_vcs }}"
+        version: master
+        dest: "{{ lighthouse_location_dir }}"
+- name: Lighthouse | Create lighthouse vector_config
+  become: true
+  ansible.legacy.template:
+    src: lighthouse.conf
+    dest: /etc/nginx/conf.d/default.conf
+    mode: o644
+  notify: Reload nginx
